@@ -1,10 +1,12 @@
 package com.music.entities;
 
+import java.util.Collection;
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -32,6 +34,9 @@ public class User {
 	
 	@Column(name="phone_number")
 	private Long phoneNumber;
+	
+	@OneToMany(mappedBy="user")
+	private Collection<Playlist> playlists;
 
 	public String getEmailAddress() {
 		return emailAddress;
@@ -87,6 +92,14 @@ public class User {
 	
 	public void setUserName(String userName) {
 		this.userName = userName;
+	}
+
+	public Collection<Playlist> getPlaylists() {
+		return playlists;
+	}
+
+	public void setPlaylists(Collection<Playlist> playlists) {
+		this.playlists = playlists;
 	}
 	
 }
