@@ -17,7 +17,7 @@ public class Genre {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="genre_id")
-	private int genreId;
+	private Long genreId;
 	
 	@Column(name="genre_name")
 	private String genreName;
@@ -27,11 +27,11 @@ public class Genre {
 			inverseJoinColumns=@JoinColumn(name="song_id"))
 	private Songs songs;
 	
-	public int getGenreId() {
+	public Long getGenreId() {
 		return genreId;
 	}
 
-	public void setGenreId(int genreId) {
+	public void setGenreId(Long genreId) {
 		this.genreId = genreId;
 	}
 

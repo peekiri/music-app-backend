@@ -5,16 +5,24 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name="User")
 public class User {
 
 	@Id
-	@Column(name="Email_address")
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name="user_id")
+	private Long userId;
+	
+	@Column(name="Email_address", unique=true)
+	@NotEmpty
 	private String emailAddress;
 	
 	@Column(name="first_name")
@@ -100,6 +108,14 @@ public class User {
 
 	public void setPlaylists(Collection<Playlist> playlists) {
 		this.playlists = playlists;
+	}
+
+	public Long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
 	
 }

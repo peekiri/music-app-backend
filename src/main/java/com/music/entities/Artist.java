@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
@@ -20,7 +22,11 @@ import javax.persistence.Table;
 public class Artist {
 	
 	@Id
-	@Column(name="artist_name")
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name="artist_id")
+	private Long artistId;
+	
+	@Column(name="artist_name", unique=true)
 	private String artistName;
 	
 	@ManyToMany(mappedBy="artist")
@@ -51,6 +57,14 @@ public class Artist {
 
 	public void setAlbum(Album album) {
 		this.album = album;
+	}
+
+	public Long getArtistId() {
+		return artistId;
+	}
+
+	public void setArtistId(Long artistId) {
+		this.artistId = artistId;
 	}
 	
 }

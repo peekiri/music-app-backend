@@ -28,7 +28,7 @@ public class Songs {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="song_id")
-	private int songId;
+	private Long songId;
 	
 	@Column(name="song_name")
 	private String songName;
@@ -38,22 +38,22 @@ public class Songs {
 	
 	@ManyToMany
 	@JoinTable(name="song_artist", joinColumns=@JoinColumn(name="song_id"), 
-		inverseJoinColumns=@JoinColumn(name="artist_name"))
+		inverseJoinColumns=@JoinColumn(name="artist_id"))
 	private List<Artist> artist;
 	
 	@OneToMany(mappedBy="songs")
 	private Collection<Genre> genre;
 	
 	@ManyToOne
-	@JoinTable(name="album_songs", joinColumns=@JoinColumn(name="album_name"),
+	@JoinTable(name="album_songs", joinColumns=@JoinColumn(name="album_id"),
 		inverseJoinColumns=@JoinColumn(name="song_id"))
 	private Album album;
 
-	public int getSongId() {
+	public Long getSongId() {
 		return songId;
 	}
 
-	public void setSongId(int songId) {
+	public void setSongId(Long songId) {
 		this.songId = songId;
 	}
 

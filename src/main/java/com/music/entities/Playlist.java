@@ -4,6 +4,8 @@ import java.util.Collection;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -16,6 +18,10 @@ import javax.persistence.Table;
 public class Playlist {
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name="playlist_id")
+	private Long playlistId;
+	
 	@Column(name="playlist_name")
 	private String playlistName;
 	
@@ -24,7 +30,7 @@ public class Playlist {
 	private User user;
 	
 	@ManyToMany
-	@JoinTable(name="playlist_song", joinColumns=@JoinColumn(name="playlist_name"), 
+	@JoinTable(name="playlist_song", joinColumns=@JoinColumn(name="playlist_id"), 
 		inverseJoinColumns=@JoinColumn(name="song_id"))
 	private Collection<Songs> songsList;
 
@@ -50,6 +56,14 @@ public class Playlist {
 
 	public void setSongsList(Collection<Songs> songsList) {
 		this.songsList = songsList;
+	}
+
+	public Long getPlaylistId() {
+		return playlistId;
+	}
+
+	public void setPlaylistId(Long playlistId) {
+		this.playlistId = playlistId;
 	}
 	
 }
