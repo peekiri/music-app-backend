@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.music.entities.User;
+import com.music.mappers.GenericMessageStatusMapper;
+import com.music.mappers.UserRequestMapper;
 import com.music.services.UserService;
 
 @RestController
@@ -20,9 +22,20 @@ public class UserController {
 	private UserService userService;
 
 	@RequestMapping(value="/register", method=RequestMethod.POST)
-	public ResponseEntity<?> registerUser(@RequestBody User bodyPayload) {
+	public ResponseEntity<GenericMessageStatusMapper> registerUser(@RequestBody UserRequestMapper bodyPayload) {
 		
-		System.out.println(bodyPayload);
+		GenericMessageStatusMapper statusMapper = new GenericMessageStatusMapper();
+		
+		User user = new User();
+		user.setFirstName(bodyPayload.getFirstName());
+		user.setLastName(bodyPayload.getLastName());
+		user.setEmailAddress(bodyPayload.getEmailAddress());
+		user.setDateOfBirth(bodyPayload.getDateOfBirth());
+		user.setPassword(bodyPayload.getPassword());
+		user.setPhoneNumber(bodyPayload.getPhoneNumber());
+		user.setUserName(bodyPayload.getUserName());
+		
+		userService.saveNewUser(user);
 		
 		return null;
 	}
