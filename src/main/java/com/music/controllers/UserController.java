@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.music.entities.User;
 import com.music.mappers.GenericMessageStatusMapper;
 import com.music.mappers.UserRequestMapper;
-import com.music.services.UserService;
+import com.music.serviceinterfaces.UserService;
 
 @RestController
 @RequestMapping("/user")
