@@ -1,6 +1,10 @@
 package com.music.serviceinterfaces;
 
+import org.springframework.context.NoSuchMessageException;
+
 import com.music.entities.User;
+import com.music.exceptions.EmailAlreadyExistException;
+import com.music.exceptions.UsernameAlreadyExist;
 
 /**
  * User service to save , get the user
@@ -10,6 +14,7 @@ import com.music.entities.User;
  */
 public interface UserService {
 
-	public void saveNewUser(User user);
+	public void saveNewUser(User user)
+			throws NoSuchMessageException, EmailAlreadyExistException, UsernameAlreadyExist;
 	
 }
