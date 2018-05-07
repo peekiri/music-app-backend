@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService{
 	private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
 	public void saveNewUser(User user) throws NoSuchMessageException, EmailAlreadyExistException,
-		UsernameAlreadyExist{
+		UsernameAlreadyExist {
 		
 		logger.info("Inside UserServiceImpl , saveNewUser method");
 		
@@ -58,6 +58,5 @@ public class UserServiceImpl implements UserService{
 		}
 		return false;
 	}
-	
-	
+
 }
