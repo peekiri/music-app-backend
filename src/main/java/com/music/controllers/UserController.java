@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.music.entities.User;
 import com.music.exceptions.EmailAlreadyExistException;
-import com.music.exceptions.UsernameAlreadyExist;
+import com.music.exceptions.UsernameAlreadyExistException;
 import com.music.exceptions.ValidationException;
 import com.music.mappers.GenericMessageStatusMapper;
 import com.music.mappers.UserRequestMapper;
@@ -68,13 +68,15 @@ public class UserController {
 			statusMapper.setMessage(messageSource.getMessage("entity.created",null, Locale.ENGLISH));
 			statusMapper.setStatus(HttpStatus.ACCEPTED.value());
 			
-			return ResponseEntity.status(HttpStatus.ACCEPTED).body(statusMapper);
-		} catch (NoSuchMessageException | EmailAlreadyExistException | UsernameAlreadyExist |ValidationException e) {
+			return ResponseEntity.status(HttpStatus.ACCEPTED).header("content-type", "application/json")
+					.body(statusMapper);
+		} catch (NoSuchMessageException | EmailAlreadyExistException | UsernameAlreadyExistException |ValidationException e) {
 			
 			statusMapper.setMessage(e.getMessage());
 			statusMapper.setStatus(HttpStatus.CONFLICT.value());
 			
-			return ResponseEntity.status(HttpStatus.CONFLICT).body(statusMapper);
+			return ResponseEntity.status(HttpStatus.CONFLICT).header("content-type", "application/json")
+					.body(statusMapper);
 		}
 		
 	}
