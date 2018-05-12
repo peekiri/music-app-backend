@@ -21,6 +21,10 @@ public class MusicLibraryApplication {
 		SpringApplication.run(MusicLibraryApplication.class, args);
 	}
 	
+	/**
+	 * Bean for creation of resourceBundle.
+	 * @return
+	 */
 	@Bean
 	public ResourceBundleMessageSource messageSource(){
 		
@@ -31,6 +35,12 @@ public class MusicLibraryApplication {
 		return resourceBundleMessageSource;
 	}
 	
+	/**
+	 * This configuration is for Cross Origin requests,
+	 * It allows the communication between different origins of request.
+	 * eg- Angular is running on port 4200 and backend on 8008.
+	 * @return
+	 */
 	@SuppressWarnings("deprecation")
 	@Bean
 	public WebMvcConfigurer webMvcAutoConfiguration () {

@@ -57,6 +57,8 @@ public class UserController {
 		user.setUserName(bodyPayload.getUserName());
 		
 		try {
+			// validate if proper data is sent to the request before processing further.
+			// Validator result will be stored in BindingResult object.
 			registerValidator.validate(user, result);
 			
 			if(result.hasErrors()) {

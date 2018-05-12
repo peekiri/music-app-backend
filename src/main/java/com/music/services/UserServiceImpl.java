@@ -43,6 +43,12 @@ public class UserServiceImpl implements UserService{
 		userRepository.save(user);
 	}
 	
+	/**
+	 * Validate for email existing in database.
+	 * 
+	 * @param user
+	 * @return
+	 */
 	private boolean checkIfEmailAlreadyExist(User user) {
 		
 		if(userRepository.countByEmailAddress(user.getEmailAddress()) > 0) {
@@ -51,6 +57,12 @@ public class UserServiceImpl implements UserService{
 		return false;
 	}
 	
+	/**
+	 * Validate for username if it exist already.
+	 * 
+	 * @param user
+	 * @return
+	 */
 	private boolean checkIfUserNameAlreadyExist(User user) {
 		
 		if(userRepository.countByUserName(user.getUserName()) > 0) {
