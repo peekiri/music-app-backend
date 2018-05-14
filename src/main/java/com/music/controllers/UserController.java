@@ -9,6 +9,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.NoSuchMessageException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,6 +38,9 @@ public class UserController {
 	@Autowired
 	private RegisterValidator registerValidator;
 	
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
 	@RequestMapping(value="/register", method=RequestMethod.POST)
@@ -52,7 +56,9 @@ public class UserController {
 		user.setLastName(bodyPayload.getLastName());
 		user.setEmailAddress(bodyPayload.getEmailAddress());
 		user.setDateOfBirth(bodyPayload.getDateOfBirth());
-		user.setPassword(bodyPayload.getPassword());
+		user.setPassword(
+				bCryptPasswordEncoder.encode(bodyPayload.getPassword())
+				);
 		user.setPhoneNumber(bodyPayload.getPhoneNumber());
 		user.setUserName(bodyPayload.getUserName());
 		
