@@ -7,11 +7,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.NoSuchMessageException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.music.entities.User;
 import com.music.exceptions.EmailAlreadyExistException;
 import com.music.exceptions.UsernameAlreadyExistException;
+import com.music.mappers.UserRequestMapper;
 import com.music.repositories.UserRepository;
 import com.music.serviceinterfaces.UserService;
 
@@ -24,7 +26,27 @@ public class UserServiceImpl implements UserService{
 	@Autowired
 	private MessageSource messageSource;
 	
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	
 	private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+	
+	@Override
+	public User getUserFromRequest(UserRequestMapper bodyPayload) {
+		User user = new User();
+
+		user.setFirstName(bodyPayload.getFirstName());
+		user.setLastName(bodyPayload.getLastName());
+		user.setEmailAddress(bodyPayload.getEmailAddress());
+		user.setDateOfBirth(bodyPayload.getDateOfBirth());
+		user.setPassword(
+				bCryptPasswordEncoder.encode(bodyPayload.getPassword())
+				);
+		user.setPhoneNumber(bodyPayload.getPhoneNumber());
+		user.setUserName(bodyPayload.getUserName());
+		
+		return user;
+	}
 
 	public void saveNewUser(User user) throws NoSuchMessageException, EmailAlreadyExistException,
 		UsernameAlreadyExistException {

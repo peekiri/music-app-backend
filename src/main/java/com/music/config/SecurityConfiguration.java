@@ -16,17 +16,26 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 	
+	/**
+	 * Adding spring-security to the project, will add an inmemoryauthentication.
+	 * To provide the username and password before sending any request.
+	 */
 	@Override
 	public void configure(AuthenticationManagerBuilder auth) throws Exception{
+		// Including bcrypt bean , the password will be encoded; So, encode() the password.
 		String password = bCryptPasswordEncoder().encode("user");
 		auth.inMemoryAuthentication()
 			.withUser("user")
 			.password(password).roles("user");
 	}
 	
+	/**
+	 * Specify , which REST api needs to be allowed without authentication.
+	 */
 	@Override
 	public void configure(HttpSecurity http) throws Exception{
 		http.cors().and().authorizeRequests()
+			// permit "/user/register" without any authorization.
 			.antMatchers(HttpMethod.POST,SecurityConstants.REGISTERURL).permitAll()
 			.anyRequest()
 			.authenticated()
@@ -37,6 +46,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 			.disable();
 	}
 	
+	/**
+	 * Password encoder for encoding the password before saving the password in db.
+	 * 
+	 * @return
+	 */
 	@Bean
 	public BCryptPasswordEncoder bCryptPasswordEncoder() {
 		return new BCryptPasswordEncoder();
