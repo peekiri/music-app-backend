@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -15,6 +16,9 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @EnableWebSecurity
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
+
+	private UserDetailsService userDetailsService;
+//	private BCryptPasswordEncoder bcryptEncoder;
 	
 	/**
 	 * Adding spring-security to the project, will add an inmemoryauthentication.
@@ -26,7 +30,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 		String password = bCryptPasswordEncoder().encode("user");
 		auth.inMemoryAuthentication()
 			.withUser("user")
-			.password(password).roles("user");
+			.password("user").roles("user");
 	}
 	
 	/**
