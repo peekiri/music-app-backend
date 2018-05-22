@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
@@ -18,7 +19,13 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 
 	private UserDetailsService userDetailsService;
-//	private BCryptPasswordEncoder bcryptEncoder;
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	
+	public SecurityConfiguration(UserDetailsService userDetailsService, 
+			BCryptPasswordEncoder bCryptPasswordEncoder	) {
+		this.userDetailsService = userDetailsService;
+		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+	}
 	
 	/**
 	 * Adding spring-security to the project, will add an inmemoryauthentication.
@@ -27,10 +34,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 	@Override
 	public void configure(AuthenticationManagerBuilder auth) throws Exception{
 		// Including bcrypt bean , the password will be encoded; So, encode() the password.
-		String password = bCryptPasswordEncoder().encode("user");
-		auth.inMemoryAuthentication()
-			.withUser("user")
-			.password("user").roles("user");
+//		String password = bCryptPasswordEncoder().encode("user");
+//		auth.inMemoryAuthentication()
+//			.withUser("user")
+//			.password(password).roles("user");
+		auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
 	}
 	
 	/**
@@ -38,26 +46,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 	 */
 	@Override
 	public void configure(HttpSecurity http) throws Exception{
-		http.cors().and().authorizeRequests()
+		http.csrf()
+			.disable().cors().and().authorizeRequests()
 			// permit "/user/register" without any authorization.
 			.antMatchers(HttpMethod.POST,SecurityConstants.REGISTERURL).permitAll()
 			.anyRequest()
 			.authenticated()
 			.and()
-			.httpBasic()
-			.and()
-			.csrf()
-			.disable();
-	}
-	
-	/**
-	 * Password encoder for encoding the password before saving the password in db.
-	 * 
-	 * @return
-	 */
-	@Bean
-	public BCryptPasswordEncoder bCryptPasswordEncoder() {
-		return new BCryptPasswordEncoder();
+			.addFilter(new JWTAuthenticationFilter(authenticationManager()))
+			.addFilter(new JWTAuthorizationFilter(authenticationManager()))
+			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 	}
 	
 	@Bean
