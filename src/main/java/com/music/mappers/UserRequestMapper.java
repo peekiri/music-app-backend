@@ -2,20 +2,27 @@ package com.music.mappers;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class UserRequestMapper {
 
 	private String userName;
-	
+
+	@JsonIgnore
 	private String firstName;
 	
+	@JsonIgnore
 	private String lastName;
 	
+	@JsonIgnore
 	private Date dateOfBirth;
 	
+	@JsonIgnore
 	private String emailAddress;
 	
 	private String password;
 	
+	@JsonIgnore
 	private Long phoneNumber;
 
 	public String getUserName() {

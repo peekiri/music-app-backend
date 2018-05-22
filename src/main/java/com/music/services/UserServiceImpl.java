@@ -20,6 +20,8 @@ import com.music.mappers.UserRequestMapper;
 import com.music.repositories.UserRepository;
 import com.music.serviceinterfaces.UserService;
 
+import static java.util.Collections.emptyList;
+
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService{
 	
@@ -98,10 +100,14 @@ public class UserServiceImpl implements UserService, UserDetailsService{
 
 	@Override
 	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-		userRepository.findByUserName(userName);
+		User user = userRepository.findByUserName(userName);
 		
+		if(user == null) {
+			throw new UsernameNotFoundException("");
+		}
 		
-		return null;
+		return new org.springframework.security.core.userdetails.User
+				(user.getEmailAddress(), user.getPassword(), emptyList());
 	}
 
 }
