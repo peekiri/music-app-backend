@@ -16,6 +16,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.music.entities.User;
+import com.music.mappers.UserRequestMapper;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -31,8 +32,8 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res) throws AuthenticationException{
 		try {
-			User user = new ObjectMapper().
-					readValue(req.getInputStream(), User.class);
+			UserRequestMapper user = new ObjectMapper().
+					readValue(req.getInputStream(), UserRequestMapper.class);
 			
 			return authenticationManager.authenticate(
 					new UsernamePasswordAuthenticationToken(
