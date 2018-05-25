@@ -73,6 +73,12 @@ public class UserController {
 			return ResponseEntity.status(HttpStatus.CONFLICT).header("content-type", "application/json")
 					.body(statusMapper);
 		}
+	}
+	
+	@RequestMapping(value="/login",method=RequestMethod.POST)
+	public ResponseEntity<GenericMessageStatusMapper> loginUser(@RequestBody UserRequestMapper userPayload) {
 		
+		
+		return null;
 	}
 }
