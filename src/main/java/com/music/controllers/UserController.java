@@ -1,5 +1,6 @@
 package com.music.controllers;
 
+import java.security.Principal;
 import java.util.Locale;
 
 import org.slf4j.Logger;
@@ -76,8 +77,8 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/login",method=RequestMethod.POST)
-	public ResponseEntity<GenericMessageStatusMapper> loginUser(@RequestBody UserRequestMapper userPayload) {
-		
+	public Principal loginUser(Principal principal) {
+		logger.info("This is test");
 		
 		return null;
 	}

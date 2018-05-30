@@ -99,11 +99,11 @@ public class UserServiceImpl implements UserService, UserDetailsService{
 	}
 
 	@Override
-	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-		User user = userRepository.findByUserName(userName);
+	public UserDetails loadUserByUsername(String emailAddress) throws UsernameNotFoundException {
+		User user = userRepository.findByEmailAddress(emailAddress);
 		
 		if(user == null) {
-			throw new UsernameNotFoundException("");
+			throw new UsernameNotFoundException("Email Address is not found!!");
 		}
 		
 		return new org.springframework.security.core.userdetails.User

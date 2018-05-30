@@ -34,10 +34,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 	@Override
 	public void configure(AuthenticationManagerBuilder auth) throws Exception{
 		// Including bcrypt bean , the password will be encoded; So, encode() the password.
-//		String password = bCryptPasswordEncoder().encode("user");
-//		auth.inMemoryAuthentication()
-//			.withUser("user")
-//			.password(password).roles("user");
 		auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
 	}
 	
