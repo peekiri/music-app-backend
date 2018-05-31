@@ -75,11 +75,4 @@ public class UserController {
 					.body(statusMapper);
 		}
 	}
-	
-	@RequestMapping(value="/login",method=RequestMethod.POST)
-	public Principal loginUser(Principal principal) {
-		logger.info("This is test");
-		
-		return null;
-	}
 }
