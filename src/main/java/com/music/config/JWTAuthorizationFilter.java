@@ -1,6 +1,7 @@
 package com.music.config;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 import javax.servlet.FilterChain;
@@ -14,6 +15,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureException;
+import io.jsonwebtoken.UnsupportedJwtException;
 
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter{
 
@@ -37,12 +41,14 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter{
 		filterChain.doFilter(req, res);
 	}
 	
-	private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest req) {
+	private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest req)
+			throws UnsupportedJwtException, MalformedJwtException, SignatureException, IllegalArgumentException,
+			UnsupportedEncodingException {
 		String token = req.getHeader(SecurityConstants.HEADER_STRING);
 		
 		if(token != null) {
 			String user = Jwts.parser()
-							.setSigningKey(SecurityConstants.SECRET)
+							.setSigningKey(SecurityConstants.SECRET.getBytes("UTF-8"))
 							.parseClaimsJws(token.replace(SecurityConstants.TOKEN_PREFIX, ""))
 							.getBody()
 							.getSubject();
