@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import com.music.entities.User;
 import com.music.exceptions.EmailAlreadyExistException;
 import com.music.exceptions.UsernameAlreadyExistException;
+import com.music.mails.RegistrationMailSending;
 import com.music.mappers.UserRequestMapper;
 import com.music.repositories.UserRepository;
 import com.music.serviceinterfaces.UserService;
@@ -66,6 +67,9 @@ public class UserServiceImpl implements UserService, UserDetailsService{
 			throw new UsernameAlreadyExistException(
 					messageSource.getMessage("username.already.exist", null, Locale.ENGLISH));
 		}
+		
+		Thread thread = new Thread(new RegistrationMailSending(user.getEmailAddress()));
+		thread.start();
 		
 		userRepository.save(user);
 	}
